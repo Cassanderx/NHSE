@@ -239,9 +239,11 @@ namespace NHSE.WinForms
                     if (remake2 > 0)
                     {
                         var info = ItemRemakeInfoData.List[remake2];
-                        for (ushort i = 0; i <= info.ReBodyPatternNum; i++)
+                        var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
+                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 0;
+                        for (ushort i = 0; i <= loopLimit; i++)
                         {
-                            SetTileWithCount(curTile2, curX2, curY2, i);
+                            SetTileWithCount(curTile2, curX2, curY2, (ushort)(i * mult32));
 
                             var w2 = ItemInfo.GetItemSize(item3).GetWidth();
                             var h2 = ItemInfo.GetItemSize(item3).GetHeight();
@@ -251,7 +253,7 @@ namespace NHSE.WinForms
                             {
                                 var displaceX = curX2 + j * 2;
                                 var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2);
-                                SetTileWithCount(newTile, displaceX, curY2 + h2, i, true);
+                                SetTileWithCount(newTile, displaceX, curY2 + h2, (ushort)(i * mult32), true);
                             }
 
                             curX2 += (size2.GetWidth() + size2.GetWidth() % 2);
@@ -273,9 +275,17 @@ namespace NHSE.WinForms
                     if (remake > 0)
                     {
                         var info = ItemRemakeInfoData.List[remake];
-                        for (ushort i = 0; i <= info.ReBodyPatternNum; i++)
+                        var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
+                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 0;
+
+                        //if (loopLimit <= 0)
+                        //{
+                        //    var chfgv = 0;
+                        //}
+
+                        for (ushort i = 0; i <= loopLimit; i++)
                         {
-                            SetTileWithCount(curTile, curX, curY, i);
+                            SetTileWithCount(curTile, curX, curY, (ushort)(i * mult32));
                             curX += (size.GetWidth() + size.GetWidth() % 2);
                             curTile = Map.CurrentLayer.GetTile(curX, curY);
                         }
