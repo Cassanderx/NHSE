@@ -228,6 +228,12 @@ namespace NHSE.WinForms
                     SetTile(tile, x, y);
                     return;
 
+                case Keys.Control | Keys.Shift:
+                    SetTile(tile, x, y);
+                    var tile2 = Map.CurrentLayer.GetTile(x, y + 2);
+                    SetTileButDropped(tile2, x, y + 2);
+                    return;
+
                 case Keys.Alt:
                     DeleteTile(tile, x, y);
                     return;
@@ -378,6 +384,42 @@ namespace NHSE.WinForms
             var l = Map.CurrentLayer;
             var pgt = new Item();
             ItemEdit.SetItem(pgt);
+
+            if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
+            {
+                // coordinates must be even (not odd-half)
+                x &= 0xFFFE;
+                y &= 0xFFFE;
+                tile = l.GetTile(x, y);
+            }
+
+            var permission = l.IsOccupied(pgt, x, y);
+            switch (permission)
+            {
+                case PlacedItemPermission.OutOfBounds:
+                case PlacedItemPermission.Collision when CHK_NoOverwrite.Checked:
+                    System.Media.SystemSounds.Asterisk.Play();
+                    return;
+            }
+
+            // Clean up original placed data
+            if (tile.IsRoot && CHK_AutoExtension.Checked)
+                l.DeleteExtensionTiles(tile, x, y);
+
+            // Set new placed data
+            if (pgt.IsRoot && CHK_AutoExtension.Checked)
+                l.SetExtensionTiles(pgt, x, y);
+            tile.CopyFrom(pgt);
+
+            ReloadItems();
+        }
+
+        private void SetTileButDropped(Item tile, int x, int y)
+        {
+            var l = Map.CurrentLayer;
+            var pgt = new Item();
+            ItemEdit.SetItem(pgt);
+            pgt.SystemParam = 0x20;
 
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
             {
