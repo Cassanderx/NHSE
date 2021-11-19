@@ -230,8 +230,12 @@ namespace NHSE.WinForms
 
                 case Keys.Control | Keys.Shift:
                     SetTile(tile, x, y);
-                    var tile2 = Map.CurrentLayer.GetTile(x, y + 2);
-                    SetTileButDropped(tile2, x, y + 2);
+                    var item = new Item();
+                    ItemEdit.SetItem(item);
+                    var h = ItemInfo.GetItemSize(item).GetHeight();
+                    h += h % 2;
+                    var tile2 = Map.CurrentLayer.GetTile(x, y + h);
+                    SetTileButDropped(tile2, x, y + h);
                     return;
 
                 case Keys.Alt:
