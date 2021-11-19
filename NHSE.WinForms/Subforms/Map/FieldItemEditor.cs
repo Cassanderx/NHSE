@@ -249,17 +249,22 @@ namespace NHSE.WinForms
                             var h2 = ItemInfo.GetItemSize(item3).GetHeight();
                             w2 += w2 % 2;
                             h2 += h2 % 2;
-                            for (var j = 0; j < w2 / 2; j++)
+                            for (int k = 0; k < NUD_DropRows.Value; k++)
                             {
-                                var displaceX = curX2 + j * 2;
-                                var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2);
-                                SetTileWithCount(newTile, displaceX, curY2 + h2, (ushort)(i * mult32), true);
+                                for (var j = 0; j < w2 / 2; j++)
+                                {
+                                    var displaceX = curX2 + j * 2;
+                                    var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2 + k * 2);
+                                    SetTileWithCount(newTile, displaceX, curY2 + h2 + k * 2, (ushort)(i * mult32), true);
+                                }
                             }
 
                             curX2 += (size2.GetWidth() + size2.GetWidth() % 2);
                             curTile2 = Map.CurrentLayer.GetTile(curX2, curY2);
                         }
                     }
+
+                    ReloadItems();
 
                     return;
 
@@ -291,6 +296,8 @@ namespace NHSE.WinForms
                         }
                     }
 
+                    ReloadItems();
+
                     return;
 
                 case Keys.Control:
@@ -301,11 +308,16 @@ namespace NHSE.WinForms
                     var h = ItemInfo.GetItemSize(item).GetHeight();
                     w += w % 2;
                     h += h % 2;
-                    for (var i = 0; i < w / 2; i++)
+                    for (int j = 0; j < NUD_DropRows.Value; j++)
                     {
-                        var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h);
-                        SetTileButDropped(tile2, x + i * 2, y + h);
+                        for (var i = 0; i < w / 2; i++)
+                        {
+                            var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
+                            SetTileButDropped(tile2, x + i * 2, y + h + 2 * j);
+                        }
                     }
+
+                    ReloadItems();
 
                     return;
 
@@ -522,7 +534,7 @@ namespace NHSE.WinForms
                 l.SetExtensionTiles(pgt, x, y);
             tile.CopyFrom(pgt);
 
-            ReloadItems();
+            //ReloadItems();
         }
 
         private void SetTileWithCount(Item tile, int x, int y, ushort count, bool drop = false)
@@ -559,7 +571,7 @@ namespace NHSE.WinForms
                 l.SetExtensionTiles(pgt, x, y);
             tile.CopyFrom(pgt);
 
-            ReloadItems();
+            //ReloadItems();
         }
 
         private void ReplaceTile(Item tile, int x, int y)
