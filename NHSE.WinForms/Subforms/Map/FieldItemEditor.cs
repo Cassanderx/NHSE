@@ -240,7 +240,7 @@ namespace NHSE.WinForms
                     {
                         var info = ItemRemakeInfoData.List[remake2];
                         var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
-                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 0;
+                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
                         for (ushort i = 0; i <= loopLimit; i++)
                         {
                             SetTileWithCount(curTile2, curX2, curY2, (ushort)(i * mult32));
@@ -276,7 +276,7 @@ namespace NHSE.WinForms
                     {
                         var info = ItemRemakeInfoData.List[remake];
                         var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
-                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 0;
+                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
 
                         //if (loopLimit <= 0)
                         //{
