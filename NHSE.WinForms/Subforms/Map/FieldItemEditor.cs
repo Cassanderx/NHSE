@@ -220,7 +220,6 @@ namespace NHSE.WinForms
                     return;
 
                 case Keys.Alt | Keys.Control:
-                case Keys.Alt | Keys.Control | Keys.Shift:
                     ReplaceTile(tile, x, y);
                     return;
 
@@ -228,14 +227,76 @@ namespace NHSE.WinForms
                     SetTile(tile, x, y);
                     return;
 
+                case Keys.Alt | Keys.Control | Keys.Shift:
+                    var curTile2 = tile;
+                    var curX2 = x;
+                    var curY2 = y;
+
+                    var item3 = new Item();
+                    ItemEdit.SetItem(item3);
+                    var size2 = ItemInfo.GetItemSize(item3);
+                    var remake2 = ItemRemakeUtil.GetRemakeIndex(item3.ItemId);
+                    if (remake2 > 0)
+                    {
+                        var info = ItemRemakeInfoData.List[remake2];
+                        for (ushort i = 0; i <= info.ReBodyPatternNum; i++)
+                        {
+                            SetTileWithCount(curTile2, curX2, curY2, i);
+
+                            var w2 = ItemInfo.GetItemSize(item3).GetWidth();
+                            var h2 = ItemInfo.GetItemSize(item3).GetHeight();
+                            w2 += w2 % 2;
+                            h2 += h2 % 2;
+                            for (var j = 0; j < w2 / 2; j++)
+                            {
+                                var displaceX = curX2 + j * 2;
+                                var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2);
+                                SetTileWithCount(newTile, displaceX, curY2 + h2, i, true);
+                            }
+
+                            curX2 += (size2.GetWidth() + size2.GetWidth() % 2);
+                            curTile2 = Map.CurrentLayer.GetTile(curX2, curY2);
+                        }
+                    }
+
+                    return;
+
                 case Keys.Control | Keys.Shift:
+                    var curTile = tile;
+                    var curX = x;
+                    var curY = y;
+
+                    var item2 = new Item();
+                    ItemEdit.SetItem(item2);
+                    var size = ItemInfo.GetItemSize(item2);
+                    var remake = ItemRemakeUtil.GetRemakeIndex(item2.ItemId);
+                    if (remake > 0)
+                    {
+                        var info = ItemRemakeInfoData.List[remake];
+                        for (ushort i = 0; i <= info.ReBodyPatternNum; i++)
+                        {
+                            SetTileWithCount(curTile, curX, curY, i);
+                            curX += (size.GetWidth() + size.GetWidth() % 2);
+                            curTile = Map.CurrentLayer.GetTile(curX, curY);
+                        }
+                    }
+
+                    return;
+
+                case Keys.Control:
                     SetTile(tile, x, y);
                     var item = new Item();
                     ItemEdit.SetItem(item);
+                    var w = ItemInfo.GetItemSize(item).GetWidth();
                     var h = ItemInfo.GetItemSize(item).GetHeight();
+                    w += w % 2;
                     h += h % 2;
-                    var tile2 = Map.CurrentLayer.GetTile(x, y + h);
-                    SetTileButDropped(tile2, x, y + h);
+                    for (var i = 0; i < w / 2; i++)
+                    {
+                        var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h);
+                        SetTileButDropped(tile2, x + i * 2, y + h);
+                    }
+
                     return;
 
                 case Keys.Alt:
@@ -424,6 +485,43 @@ namespace NHSE.WinForms
             var pgt = new Item();
             ItemEdit.SetItem(pgt);
             pgt.SystemParam = 0x20;
+
+            if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
+            {
+                // coordinates must be even (not odd-half)
+                x &= 0xFFFE;
+                y &= 0xFFFE;
+                tile = l.GetTile(x, y);
+            }
+
+            var permission = l.IsOccupied(pgt, x, y);
+            switch (permission)
+            {
+                case PlacedItemPermission.OutOfBounds:
+                case PlacedItemPermission.Collision when CHK_NoOverwrite.Checked:
+                    System.Media.SystemSounds.Asterisk.Play();
+                    return;
+            }
+
+            // Clean up original placed data
+            if (tile.IsRoot && CHK_AutoExtension.Checked)
+                l.DeleteExtensionTiles(tile, x, y);
+
+            // Set new placed data
+            if (pgt.IsRoot && CHK_AutoExtension.Checked)
+                l.SetExtensionTiles(pgt, x, y);
+            tile.CopyFrom(pgt);
+
+            ReloadItems();
+        }
+
+        private void SetTileWithCount(Item tile, int x, int y, ushort count, bool drop = false)
+        {
+            var l = Map.CurrentLayer;
+            var pgt = new Item();
+            ItemEdit.SetItem(pgt);
+            pgt.Count = count;
+            pgt.SystemParam = drop ? (byte)0x20 : pgt.SystemParam;
 
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
             {
