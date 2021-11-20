@@ -228,95 +228,18 @@ namespace NHSE.WinForms
                     return;
 
                 case Keys.Alt | Keys.Control | Keys.Shift:
-                    var curTile2 = tile;
-                    var curX2 = x;
-                    var curY2 = y;
-
-                    var item3 = new Item();
-                    ItemEdit.SetItem(item3);
-                    var size2 = ItemInfo.GetItemSize(item3);
-                    var w2 = size2.GetWidth();
-                    var h2 = size2.GetHeight();
-                    w2 += w2 % 2;
-                    h2 += h2 % 2;
-                    var remake2 = ItemRemakeUtil.GetRemakeIndex(item3.ItemId);
-                    if (remake2 > 0)
-                    {
-                        var info = ItemRemakeInfoData.List[remake2];
-                        var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
-                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
-                        for (ushort i = 0; i <= loopLimit; i++)
-                        {
-                            SetTile(curTile2, curX2, curY2, -1, (ushort)(i * mult32), false);
-
-                            for (int k = 0; k < NUD_DropRows.Value; k++)
-                            {
-                                for (var j = 0; j < w2 / 2; j++)
-                                {
-                                    var displaceX = curX2 + j * 2;
-                                    if (displaceX >= Map.CurrentLayer.MaxWidth) break;
-                                    var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2 + k * 2);
-                                    SetTile(newTile, displaceX, curY2 + h2 + k * 2, 0x20, (ushort)(i * mult32), false);
-                                }
-                            }
-
-                            curX2 += w2 + w2 % 2;
-                            curTile2 = Map.CurrentLayer.GetTile(curX2, curY2);
-                        }
-                    }
-
-                    ReloadItems();
+                    SetVariantTiles(tile, x, y, true);
 
                     return;
 
                 case Keys.Control | Keys.Shift:
-                    var curTile = tile;
-                    var curX = x;
-                    var curY = y;
-
-                    var item2 = new Item();
-                    ItemEdit.SetItem(item2);
-                    var size = ItemInfo.GetItemSize(item2);
-                    var remake = ItemRemakeUtil.GetRemakeIndex(item2.ItemId);
-                    if (remake > 0)
-                    {
-                        var info = ItemRemakeInfoData.List[remake];
-                        var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
-                        var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
-
-                        for (ushort i = 0; i <= loopLimit; i++)
-                        {
-                            SetTile(curTile, curX, curY, -1, (ushort)(i * mult32), false);
-                            curX += (size.GetWidth() + size.GetWidth() % 2);
-                            // Break the loop if we go out of bounds
-                            if (curX >= Map.CurrentLayer.MaxWidth) break;
-                            curTile = Map.CurrentLayer.GetTile(curX, curY);
-                        }
-                    }
-
-                    ReloadItems();
+                    SetVariantTiles(tile, x, y, false);
 
                     return;
 
                 case Keys.Control:
                     SetTile(tile, x, y, -1, -1, false);
-                    var item = new Item();
-                    ItemEdit.SetItem(item);
-                    var w = ItemInfo.GetItemSize(item).GetWidth();
-                    var h = ItemInfo.GetItemSize(item).GetHeight();
-                    w += w % 2;
-                    h += h % 2;
-                    for (int j = 0; j < NUD_DropRows.Value; j++)
-                    {
-                        for (var i = 0; i < w / 2; i++)
-                        {
-                            var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
-                            SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20);
-                        }
-                    }
-
-                    ReloadItems();
-
+                    SetDroppedTiles(tile, x, y);
                     return;
 
                 case Keys.Alt:
@@ -464,7 +387,7 @@ namespace NHSE.WinForms
             TC_Editor.SelectedTab = Tab_Terrain;
         }
 
-        private void SetTile(Item tile, int x, int y, int overrideFlag = -1, int overrideCount = -1, bool save = true)
+        private void SetTile(Item tile, int x, int y, int overrideFlag = -1, int overrideCount = -1, bool reload = true)
         {
             var l = Map.CurrentLayer;
             var pgt = new Item();
@@ -498,9 +421,57 @@ namespace NHSE.WinForms
                 l.SetExtensionTiles(pgt, x, y);
             tile.CopyFrom(pgt);
 
-            if (save) ReloadItems();
+            if (reload) ReloadItems();
         }
 
+        // TODO: Implement direction
+        private void SetDroppedTiles(Item tile, int x, int y, bool reload = true)
+        {
+            var item = new Item();
+            ItemEdit.SetItem(item);
+            var w = ItemInfo.GetItemSize(item).GetWidth();
+            var h = ItemInfo.GetItemSize(item).GetHeight();
+            // Force even number
+            w += w % 2;
+            h += h % 2;
+
+            for (int j = 0; j < NUD_DropRows.Value; j++)
+            {
+                for (var i = 0; i < w / 2; i++)
+                {
+                    var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
+                    SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20, -1, false);
+                }
+            }
+
+            if (reload) ReloadItems();
+        }
+
+        private void SetVariantTiles(Item tile, int x, int y, bool dupes = false)
+        {
+            var item = new Item();
+            ItemEdit.SetItem(item);
+            var size = ItemInfo.GetItemSize(item);
+            var remake = ItemRemakeUtil.GetRemakeIndex(item.ItemId);
+            if (remake > 0)
+            {
+                var info = ItemRemakeInfoData.List[remake];
+                var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
+                var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
+
+                for (ushort i = 0; i <= loopLimit; i++)
+                {
+                    SetTile(tile, x, y, -1, (ushort)(i * mult32), false);
+                    if (dupes) SetDroppedTiles(tile, x, y, false);
+                    x += (size.GetWidth() + size.GetWidth() % 2);
+                    // Break the loop if we go out of bounds
+                    if (x >= Map.CurrentLayer.MaxWidth) break;
+                    tile = Map.CurrentLayer.GetTile(x, y);
+                }
+            }
+
+            ReloadItems();
+        }
         private void ReplaceTile(Item tile, int x, int y)
         {
             var l = Map.CurrentLayer;
