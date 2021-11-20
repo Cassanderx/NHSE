@@ -235,6 +235,10 @@ namespace NHSE.WinForms
                     var item3 = new Item();
                     ItemEdit.SetItem(item3);
                     var size2 = ItemInfo.GetItemSize(item3);
+                    var w2 = size2.GetWidth();
+                    var h2 = size2.GetHeight();
+                    w2 += w2 % 2;
+                    h2 += h2 % 2;
                     var remake2 = ItemRemakeUtil.GetRemakeIndex(item3.ItemId);
                     if (remake2 > 0)
                     {
@@ -245,10 +249,6 @@ namespace NHSE.WinForms
                         {
                             SetTileWithCount(curTile2, curX2, curY2, (ushort)(i * mult32));
 
-                            var w2 = ItemInfo.GetItemSize(item3).GetWidth();
-                            var h2 = ItemInfo.GetItemSize(item3).GetHeight();
-                            w2 += w2 % 2;
-                            h2 += h2 % 2;
                             for (int k = 0; k < NUD_DropRows.Value; k++)
                             {
                                 for (var j = 0; j < w2 / 2; j++)
@@ -259,7 +259,7 @@ namespace NHSE.WinForms
                                 }
                             }
 
-                            curX2 += (size2.GetWidth() + size2.GetWidth() % 2);
+                            curX2 += w2 + w2 % 2;
                             curTile2 = Map.CurrentLayer.GetTile(curX2, curY2);
                         }
                     }
