@@ -425,7 +425,7 @@ namespace NHSE.WinForms
         }
 
         // TODO: Implement direction
-        private void SetDroppedTiles(Item tile, int x, int y, bool reload = true)
+        private void SetDroppedTiles(Item tile, int x, int y, int count = -1, bool reload = true)
         {
             var item = new Item();
             ItemEdit.SetItem(item);
@@ -440,7 +440,7 @@ namespace NHSE.WinForms
                 for (var i = 0; i < w / 2; i++)
                 {
                     var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
-                    SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20, -1, false);
+                    SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20, count, false);
                 }
             }
 
@@ -461,8 +461,9 @@ namespace NHSE.WinForms
 
                 for (ushort i = 0; i <= loopLimit; i++)
                 {
-                    SetTile(tile, x, y, -1, (ushort)(i * mult32), false);
-                    if (dupes) SetDroppedTiles(tile, x, y, false);
+                    var count = (ushort)(i * mult32);
+                    SetTile(tile, x, y, -1, count, false);
+                    if (dupes) SetDroppedTiles(tile, x, y, count, false);
                     x += (size.GetWidth() + size.GetWidth() % 2);
                     // Break the loop if we go out of bounds
                     if (x >= Map.CurrentLayer.MaxWidth) break;
