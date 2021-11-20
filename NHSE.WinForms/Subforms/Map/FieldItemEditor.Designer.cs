@@ -156,6 +156,7 @@
             this.CHK_RedirectExtensionLoad = new System.Windows.Forms.CheckBox();
             this.CHK_MoveOnDrag = new System.Windows.Forms.CheckBox();
             this.CHK_FieldItemSnap = new System.Windows.Forms.CheckBox();
+            this.CHK_Flag4 = new System.Windows.Forms.CheckBox();
             this.CM_Click.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.CM_Picture.SuspendLayout();
@@ -1270,6 +1271,7 @@
             // 
             // Tab_Placement
             // 
+            this.Tab_Placement.Controls.Add(this.CHK_Flag4);
             this.Tab_Placement.Controls.Add(this.NUD_DropRows);
             this.Tab_Placement.Controls.Add(this.L_DropRows);
             this.Tab_Placement.Location = new System.Drawing.Point(4, 22);
@@ -1473,6 +1475,20 @@
             this.CHK_FieldItemSnap.TabIndex = 47;
             this.CHK_FieldItemSnap.Text = "Snap Field Items to Grid on Set";
             this.CHK_FieldItemSnap.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Flag4
+            // 
+            this.CHK_Flag4.AutoSize = true;
+            this.CHK_Flag4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Flag4.Checked = true;
+            this.CHK_Flag4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Flag4.Location = new System.Drawing.Point(52, 37);
+            this.CHK_Flag4.Name = "CHK_Flag4";
+            this.CHK_Flag4.Size = new System.Drawing.Size(93, 17);
+            this.CHK_Flag4.TabIndex = 2;
+            this.CHK_Flag4.Text = "Flag 4 Aimbot:";
+            this.CHK_Flag4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Flag4.UseVisualStyleBackColor = true;
             // 
             // FieldItemEditor
             // 
@@ -1679,5 +1695,6 @@
         private System.Windows.Forms.TabPage Tab_Placement;
         private System.Windows.Forms.NumericUpDown NUD_DropRows;
         private System.Windows.Forms.Label L_DropRows;
+        private System.Windows.Forms.CheckBox CHK_Flag4;
     }
 }

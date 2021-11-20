@@ -239,7 +239,7 @@ namespace NHSE.WinForms
 
                 case Keys.Control:
                     SetTile(tile, x, y, -1, -1, false);
-                    SetDroppedTiles(tile, x, y);
+                    SetDroppedTiles(x, y);
                     return;
 
                 case Keys.Alt:
@@ -395,6 +395,21 @@ namespace NHSE.WinForms
             pgt.Count = overrideCount != -1 ? (ushort)overrideCount : pgt.Count;
             pgt.SystemParam = overrideFlag != -1 ? (byte)overrideFlag : pgt.SystemParam;
 
+            if (pgt.IsBuried && CHK_Flag4.Checked)
+            {
+                var itemCopy = new Item();
+                itemCopy.CopyFrom(pgt);
+                itemCopy.SystemParam = 0x0;
+                var size = ItemInfo.GetItemSize(itemCopy);
+                var w = size.GetWidth();
+                var h = size.GetHeight();
+
+                // Max because things with H/W of 1 screw things up. Find better solution. 
+                x += Math.Max((w / 2) - 1, 0);
+                y += Math.Max((h / 2) - 1, 0);
+                tile = l.GetTile(x, y);
+            }
+
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
             {
                 // coordinates must be even (not odd-half)
@@ -425,10 +440,15 @@ namespace NHSE.WinForms
         }
 
         // TODO: Implement direction
-        private void SetDroppedTiles(Item tile, int x, int y, int count = -1, bool reload = true)
+        private void SetDroppedTiles(int x, int y, int count = -1, bool reload = true)
         {
             var item = new Item();
             ItemEdit.SetItem(item);
+            if (item.IsBuried && CHK_Flag4.Checked)
+            {
+                // Pretend we're a full item for size related purposes if aimbot is on
+                item.SystemParam = 0x0; 
+            }
             var w = ItemInfo.GetItemSize(item).GetWidth();
             var h = ItemInfo.GetItemSize(item).GetHeight();
             // Force even number
@@ -439,8 +459,8 @@ namespace NHSE.WinForms
             {
                 for (var i = 0; i < w / 2; i++)
                 {
-                    var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
-                    SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20, count, false);
+                    var tile = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
+                    SetTile(tile, x + i * 2, y + h + 2 * j, 0x20, count, false);
                 }
             }
 
@@ -451,7 +471,18 @@ namespace NHSE.WinForms
         {
             var item = new Item();
             ItemEdit.SetItem(item);
-            var size = ItemInfo.GetItemSize(item);
+            ItemSizeType size;
+            if (item.IsBuried && CHK_Flag4.Checked)
+            {
+                var itemCopy = new Item();
+                itemCopy.CopyFrom(item);
+                itemCopy.SystemParam = 0x0;
+                size = ItemInfo.GetItemSize(itemCopy);
+            }
+            else
+            {
+                size = ItemInfo.GetItemSize(item);
+            }
             var remake = ItemRemakeUtil.GetRemakeIndex(item.ItemId);
             if (remake > 0)
             {
@@ -463,7 +494,7 @@ namespace NHSE.WinForms
                 {
                     var count = (ushort)(i * mult32);
                     SetTile(tile, x, y, -1, count, false);
-                    if (dupes) SetDroppedTiles(tile, x, y, count, false);
+                    if (dupes) SetDroppedTiles(x, y, count, false);
                     x += (size.GetWidth() + size.GetWidth() % 2);
                     // Break the loop if we go out of bounds
                     if (x >= Map.CurrentLayer.MaxWidth) break;
