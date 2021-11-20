@@ -40,6 +40,27 @@ namespace NHSE.Core
                 Tiles[i].CopyFrom(tiles[i]);
         }
 
+        public void Bury(Item item, int x, int y)
+        {
+            var info = ItemInfo.GetItemSize(item);
+            int w = info.GetWidth();
+            int h = info.GetHeight();
+
+            var buriedItem = new Item();
+            buriedItem.CopyFrom(item);
+            buriedItem.SystemParam = 0x04;
+
+            DeleteExtensionTiles(item, x, y);
+            item.Delete();
+
+            x += Math.Max(w / 2 - 1, 0);
+            y += Math.Max(h / 2 - 1, 0);
+
+            var tile = GetTile(x, y);
+            tile.CopyFrom(buriedItem);
+            SetExtensionTiles(buriedItem, x, y);
+        }
+
         public int RemoveAll(in int xmin, in int ymin, in int width, in int height, Func<Item, bool> criteria)
         {
             int count = 0;
