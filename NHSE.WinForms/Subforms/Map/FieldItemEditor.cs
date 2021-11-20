@@ -247,15 +247,16 @@ namespace NHSE.WinForms
                         var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
                         for (ushort i = 0; i <= loopLimit; i++)
                         {
-                            SetTileWithCount(curTile2, curX2, curY2, (ushort)(i * mult32));
+                            SetTile(curTile2, curX2, curY2, -1, (ushort)(i * mult32), false);
 
                             for (int k = 0; k < NUD_DropRows.Value; k++)
                             {
                                 for (var j = 0; j < w2 / 2; j++)
                                 {
                                     var displaceX = curX2 + j * 2;
+                                    if (displaceX >= Map.CurrentLayer.MaxWidth) break;
                                     var newTile = Map.CurrentLayer.GetTile(displaceX, curY2 + h2 + k * 2);
-                                    SetTileWithCount(newTile, displaceX, curY2 + h2 + k * 2, (ushort)(i * mult32), true);
+                                    SetTile(newTile, displaceX, curY2 + h2 + k * 2, 0x20, (ushort)(i * mult32), false);
                                 }
                             }
 
@@ -283,15 +284,12 @@ namespace NHSE.WinForms
                         var loopLimit = info.ReBodyPatternNum > 0 ? info.ReBodyPatternNum : info.ReFabricPatternColors1.Count(x => x != 14) - 1;
                         var mult32 = info.ReBodyPatternNum == -1 ? 32 : 1;
 
-                        //if (loopLimit <= 0)
-                        //{
-                        //    var chfgv = 0;
-                        //}
-
                         for (ushort i = 0; i <= loopLimit; i++)
                         {
-                            SetTileWithCount(curTile, curX, curY, (ushort)(i * mult32));
+                            SetTile(curTile, curX, curY, -1, (ushort)(i * mult32), false);
                             curX += (size.GetWidth() + size.GetWidth() % 2);
+                            // Break the loop if we go out of bounds
+                            if (curX >= Map.CurrentLayer.MaxWidth) break;
                             curTile = Map.CurrentLayer.GetTile(curX, curY);
                         }
                     }
@@ -301,7 +299,7 @@ namespace NHSE.WinForms
                     return;
 
                 case Keys.Control:
-                    SetTile(tile, x, y);
+                    SetTile(tile, x, y, -1, -1, false);
                     var item = new Item();
                     ItemEdit.SetItem(item);
                     var w = ItemInfo.GetItemSize(item).GetWidth();
@@ -313,7 +311,7 @@ namespace NHSE.WinForms
                         for (var i = 0; i < w / 2; i++)
                         {
                             var tile2 = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
-                            SetTileButDropped(tile2, x + i * 2, y + h + 2 * j);
+                            SetTile(tile2, x + i * 2, y + h + 2 * j, 0x20);
                         }
                     }
 
@@ -466,11 +464,13 @@ namespace NHSE.WinForms
             TC_Editor.SelectedTab = Tab_Terrain;
         }
 
-        private void SetTile(Item tile, int x, int y)
+        private void SetTile(Item tile, int x, int y, int overrideFlag = -1, int overrideCount = -1, bool save = true)
         {
             var l = Map.CurrentLayer;
             var pgt = new Item();
             ItemEdit.SetItem(pgt);
+            pgt.Count = overrideCount != -1 ? (ushort)overrideCount : pgt.Count;
+            pgt.SystemParam = overrideFlag != -1 ? (byte)overrideFlag : pgt.SystemParam;
 
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
             {
@@ -498,80 +498,7 @@ namespace NHSE.WinForms
                 l.SetExtensionTiles(pgt, x, y);
             tile.CopyFrom(pgt);
 
-            ReloadItems();
-        }
-
-        private void SetTileButDropped(Item tile, int x, int y)
-        {
-            var l = Map.CurrentLayer;
-            var pgt = new Item();
-            ItemEdit.SetItem(pgt);
-            pgt.SystemParam = 0x20;
-
-            if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
-            {
-                // coordinates must be even (not odd-half)
-                x &= 0xFFFE;
-                y &= 0xFFFE;
-                tile = l.GetTile(x, y);
-            }
-
-            var permission = l.IsOccupied(pgt, x, y);
-            switch (permission)
-            {
-                case PlacedItemPermission.OutOfBounds:
-                case PlacedItemPermission.Collision when CHK_NoOverwrite.Checked:
-                    System.Media.SystemSounds.Asterisk.Play();
-                    return;
-            }
-
-            // Clean up original placed data
-            if (tile.IsRoot && CHK_AutoExtension.Checked)
-                l.DeleteExtensionTiles(tile, x, y);
-
-            // Set new placed data
-            if (pgt.IsRoot && CHK_AutoExtension.Checked)
-                l.SetExtensionTiles(pgt, x, y);
-            tile.CopyFrom(pgt);
-
-            //ReloadItems();
-        }
-
-        private void SetTileWithCount(Item tile, int x, int y, ushort count, bool drop = false)
-        {
-            var l = Map.CurrentLayer;
-            var pgt = new Item();
-            ItemEdit.SetItem(pgt);
-            pgt.Count = count;
-            pgt.SystemParam = drop ? (byte)0x20 : pgt.SystemParam;
-
-            if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
-            {
-                // coordinates must be even (not odd-half)
-                x &= 0xFFFE;
-                y &= 0xFFFE;
-                tile = l.GetTile(x, y);
-            }
-
-            var permission = l.IsOccupied(pgt, x, y);
-            switch (permission)
-            {
-                case PlacedItemPermission.OutOfBounds:
-                case PlacedItemPermission.Collision when CHK_NoOverwrite.Checked:
-                    System.Media.SystemSounds.Asterisk.Play();
-                    return;
-            }
-
-            // Clean up original placed data
-            if (tile.IsRoot && CHK_AutoExtension.Checked)
-                l.DeleteExtensionTiles(tile, x, y);
-
-            // Set new placed data
-            if (pgt.IsRoot && CHK_AutoExtension.Checked)
-                l.SetExtensionTiles(pgt, x, y);
-            tile.CopyFrom(pgt);
-
-            //ReloadItems();
+            if (save) ReloadItems();
         }
 
         private void ReplaceTile(Item tile, int x, int y)
