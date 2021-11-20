@@ -79,6 +79,7 @@
             this.GB_Remove = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Item = new System.Windows.Forms.TabPage();
+            this.ItemEdit = new NHSE.WinForms.ItemEditor();
             this.B_DumpLoadField = new System.Windows.Forms.Button();
             this.CM_DLField = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.B_DumpAcre = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,6 +136,8 @@
             this.L_MapAcre = new System.Windows.Forms.Label();
             this.CB_MapAcre = new System.Windows.Forms.ComboBox();
             this.Tab_Placement = new System.Windows.Forms.TabPage();
+            this.NUD_DropRows = new System.Windows.Forms.NumericUpDown();
+            this.L_DropRows = new System.Windows.Forms.Label();
             this.CM_DLTerrain = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.B_DumpTerrainAcre = new System.Windows.Forms.ToolStripMenuItem();
             this.B_DumpTerrainAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,9 +156,6 @@
             this.CHK_RedirectExtensionLoad = new System.Windows.Forms.CheckBox();
             this.CHK_MoveOnDrag = new System.Windows.Forms.CheckBox();
             this.CHK_FieldItemSnap = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.NUD_DropRows = new System.Windows.Forms.NumericUpDown();
-            this.ItemEdit = new NHSE.WinForms.ItemEditor();
             this.CM_Click.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.CM_Picture.SuspendLayout();
@@ -186,9 +186,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MapAcreTemplateOutside)).BeginInit();
             this.CM_DLMapAcres.SuspendLayout();
             this.Tab_Placement.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).BeginInit();
             this.CM_DLTerrain.SuspendLayout();
             this.CM_Terrain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -652,6 +652,14 @@
             this.Tab_Item.TabIndex = 0;
             this.Tab_Item.Text = "Items";
             this.Tab_Item.UseVisualStyleBackColor = true;
+            // 
+            // ItemEdit
+            // 
+            this.ItemEdit.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ItemEdit.Location = new System.Drawing.Point(3, 3);
+            this.ItemEdit.Name = "ItemEdit";
+            this.ItemEdit.Size = new System.Drawing.Size(238, 390);
+            this.ItemEdit.TabIndex = 40;
             // 
             // B_DumpLoadField
             // 
@@ -1263,7 +1271,7 @@
             // Tab_Placement
             // 
             this.Tab_Placement.Controls.Add(this.NUD_DropRows);
-            this.Tab_Placement.Controls.Add(this.label1);
+            this.Tab_Placement.Controls.Add(this.L_DropRows);
             this.Tab_Placement.Location = new System.Drawing.Point(4, 22);
             this.Tab_Placement.Name = "Tab_Placement";
             this.Tab_Placement.Padding = new System.Windows.Forms.Padding(3);
@@ -1271,6 +1279,37 @@
             this.Tab_Placement.TabIndex = 4;
             this.Tab_Placement.Text = "Placement";
             this.Tab_Placement.UseVisualStyleBackColor = true;
+            // 
+            // NUD_DropRows
+            // 
+            this.NUD_DropRows.Location = new System.Drawing.Point(122, 10);
+            this.NUD_DropRows.Maximum = new decimal(new int[] {
+            95,
+            0,
+            0,
+            0});
+            this.NUD_DropRows.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_DropRows.Name = "NUD_DropRows";
+            this.NUD_DropRows.Size = new System.Drawing.Size(64, 20);
+            this.NUD_DropRows.TabIndex = 1;
+            this.NUD_DropRows.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // L_DropRows
+            // 
+            this.L_DropRows.AutoSize = true;
+            this.L_DropRows.Location = new System.Drawing.Point(53, 12);
+            this.L_DropRows.Name = "L_DropRows";
+            this.L_DropRows.Size = new System.Drawing.Size(63, 13);
+            this.L_DropRows.TabIndex = 0;
+            this.L_DropRows.Text = "Drop Rows:";
             // 
             // CM_DLTerrain
             // 
@@ -1435,45 +1474,6 @@
             this.CHK_FieldItemSnap.Text = "Snap Field Items to Grid on Set";
             this.CHK_FieldItemSnap.UseVisualStyleBackColor = true;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Drop Rows:";
-            // 
-            // NUD_DropRows
-            // 
-            this.NUD_DropRows.Location = new System.Drawing.Point(122, 10);
-            this.NUD_DropRows.Maximum = new decimal(new int[] {
-            94,
-            0,
-            0,
-            0});
-            this.NUD_DropRows.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_DropRows.Name = "NUD_DropRows";
-            this.NUD_DropRows.Size = new System.Drawing.Size(64, 20);
-            this.NUD_DropRows.TabIndex = 1;
-            this.NUD_DropRows.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // ItemEdit
-            // 
-            this.ItemEdit.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ItemEdit.Location = new System.Drawing.Point(3, 3);
-            this.ItemEdit.Name = "ItemEdit";
-            this.ItemEdit.Size = new System.Drawing.Size(238, 390);
-            this.ItemEdit.TabIndex = 40;
-            // 
             // FieldItemEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1543,9 +1543,9 @@
             this.CM_DLMapAcres.ResumeLayout(false);
             this.Tab_Placement.ResumeLayout(false);
             this.Tab_Placement.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).EndInit();
             this.CM_DLTerrain.ResumeLayout(false);
             this.CM_Terrain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1678,6 +1678,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Activate;
         private System.Windows.Forms.TabPage Tab_Placement;
         private System.Windows.Forms.NumericUpDown NUD_DropRows;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_DropRows;
     }
 }
