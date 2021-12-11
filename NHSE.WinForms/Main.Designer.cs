@@ -54,7 +54,7 @@
             this.MinimizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NHSE";
+            this.Text = "NHSE - Sleepy & Oreo Edition";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
