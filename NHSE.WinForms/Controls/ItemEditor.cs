@@ -52,15 +52,32 @@ namespace NHSE.WinForms
             CB_Fossil.ValueMember = nameof(ComboItem.Value);
             CB_Fossil.DataSource = Fossils;
 
-            LoadItem(Item.NO_ITEM);
+            CB_ItemFilter.DisplayMember = nameof(ComboItem.Text);
+            CB_ItemFilter.ValueMember = nameof(ComboItem.Value);
 
             AllItems = items;
+
+            List<ComboItem> itemKinds = new List<ComboItem>
+            {
+                new ("None", -1)
+            };
+            itemKinds.AddRange(from kind in (ItemKind[])Enum.GetValues(typeof(ItemKind)) select new ComboItem(kind.ToString().Replace("Kind_", string.Empty), (int)kind));
+
+            CB_ItemFilter.DataSource = itemKinds;
+
+            LoadItem(Item.NO_ITEM);
         }
 
         public Item LoadItem(Item item)
         {
             Loading = true;
             var id = item.ItemId;
+
+            if (CB_ItemID.Items.IndexOf((int)id) == -1)
+            {
+                CB_ItemFilter.SelectedIndex = 0;
+            }
+
             if (CanExtend && id == Item.EXTENSION)
                 return LoadExtensionItem(item);
 
@@ -406,6 +423,19 @@ namespace NHSE.WinForms
             var u64 = BitConverter.ToUInt64(data, 0);
             Clipboard.SetText($"{u64:X16}");
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void CB_ItemFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.GetIndex(CB_ItemFilter) != -1)
+            {
+                var filteredItems = AllItems.Where(x => (int)ItemInfo.GetItemKind((ushort)x.Value) == WinFormsUtil.GetIndex(CB_ItemFilter) || x.Value is Item.EXTENSION or Item.NONE).ToList();
+                CB_ItemID.DataSource = filteredItems;
+            }
+            else
+            {
+                CB_ItemID.DataSource = AllItems;
+            }
         }
     }
 }

@@ -23,6 +23,11 @@ namespace NHSE.Core
             return (ItemKind) ItemKinds[id];
         }
 
+        public static byte[] GetItemKinds()
+        {
+            return ItemKinds;
+        }
+
         public static ItemSizeType GetItemSize(Item item)
         {
             if (item.IsBuried || item.IsDropped)

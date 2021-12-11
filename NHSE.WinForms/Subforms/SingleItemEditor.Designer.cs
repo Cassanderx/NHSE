@@ -55,7 +55,7 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // itemEditor1
+            // ItemEditor
             // 
             this.ItemEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ItemEditor.Location = new System.Drawing.Point(12, 12);

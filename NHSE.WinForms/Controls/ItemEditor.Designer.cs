@@ -42,6 +42,8 @@
             this.FLP_Controls = new System.Windows.Forms.FlowLayoutPanel();
             this.PB_Item = new NHSE.WinForms.InterpolatingPictureBox();
             this.FLP_Meta = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_FilterLabel = new System.Windows.Forms.Label();
+            this.CB_ItemFilter = new System.Windows.Forms.ComboBox();
             this.CHK_IsExtension = new System.Windows.Forms.CheckBox();
             this.PAN_DummyExtension = new System.Windows.Forms.Panel();
             this.FLP_Extension = new System.Windows.Forms.FlowLayoutPanel();
@@ -122,7 +124,7 @@
             this.CB_ItemID.DropDownWidth = 322;
             this.FLP_Meta.SetFlowBreak(this.CB_ItemID, true);
             this.CB_ItemID.FormattingEnabled = true;
-            this.CB_ItemID.Location = new System.Drawing.Point(3, 1);
+            this.CB_ItemID.Location = new System.Drawing.Point(3, 41);
             this.CB_ItemID.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.CB_ItemID.Name = "CB_ItemID";
             this.CB_ItemID.Size = new System.Drawing.Size(141, 21);
@@ -231,7 +233,7 @@
             this.CB_Recipe.DropDownWidth = 322;
             this.FLP_Meta.SetFlowBreak(this.CB_Recipe, true);
             this.CB_Recipe.FormattingEnabled = true;
-            this.CB_Recipe.Location = new System.Drawing.Point(3, 87);
+            this.CB_Recipe.Location = new System.Drawing.Point(3, 127);
             this.CB_Recipe.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.CB_Recipe.Name = "CB_Recipe";
             this.CB_Recipe.Size = new System.Drawing.Size(141, 21);
@@ -271,6 +273,8 @@
             // 
             this.FLP_Meta.AutoSize = true;
             this.FLP_Meta.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FLP_Meta.Controls.Add(this.L_FilterLabel);
+            this.FLP_Meta.Controls.Add(this.CB_ItemFilter);
             this.FLP_Meta.Controls.Add(this.CB_ItemID);
             this.FLP_Meta.Controls.Add(this.CHK_IsExtension);
             this.FLP_Meta.Controls.Add(this.PAN_DummyExtension);
@@ -280,14 +284,32 @@
             this.FLP_Meta.Location = new System.Drawing.Point(0, 72);
             this.FLP_Meta.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Meta.Name = "FLP_Meta";
-            this.FLP_Meta.Size = new System.Drawing.Size(147, 132);
+            this.FLP_Meta.Size = new System.Drawing.Size(147, 172);
             this.FLP_Meta.TabIndex = 30;
+            // 
+            // L_FilterLabel
+            // 
+            this.L_FilterLabel.AutoSize = true;
+            this.L_FilterLabel.Location = new System.Drawing.Point(3, 0);
+            this.L_FilterLabel.Name = "L_FilterLabel";
+            this.L_FilterLabel.Size = new System.Drawing.Size(79, 13);
+            this.L_FilterLabel.TabIndex = 31;
+            this.L_FilterLabel.Text = "Item Kind Filter:";
+            // 
+            // CB_ItemFilter
+            // 
+            this.CB_ItemFilter.FormattingEnabled = true;
+            this.CB_ItemFilter.Location = new System.Drawing.Point(3, 16);
+            this.CB_ItemFilter.Name = "CB_ItemFilter";
+            this.CB_ItemFilter.Size = new System.Drawing.Size(141, 21);
+            this.CB_ItemFilter.TabIndex = 30;
+            this.CB_ItemFilter.SelectedIndexChanged += new System.EventHandler(this.CB_ItemFilter_SelectedIndexChanged);
             // 
             // CHK_IsExtension
             // 
             this.CHK_IsExtension.AutoSize = true;
             this.FLP_Meta.SetFlowBreak(this.CHK_IsExtension, true);
-            this.CHK_IsExtension.Location = new System.Drawing.Point(17, 26);
+            this.CHK_IsExtension.Location = new System.Drawing.Point(17, 66);
             this.CHK_IsExtension.Margin = new System.Windows.Forms.Padding(17, 3, 3, 3);
             this.CHK_IsExtension.Name = "CHK_IsExtension";
             this.CHK_IsExtension.Size = new System.Drawing.Size(72, 17);
@@ -298,7 +320,7 @@
             // 
             // PAN_DummyExtension
             // 
-            this.PAN_DummyExtension.Location = new System.Drawing.Point(0, 46);
+            this.PAN_DummyExtension.Location = new System.Drawing.Point(0, 86);
             this.PAN_DummyExtension.Margin = new System.Windows.Forms.Padding(0);
             this.PAN_DummyExtension.Name = "PAN_DummyExtension";
             this.PAN_DummyExtension.Size = new System.Drawing.Size(0, 0);
@@ -312,7 +334,7 @@
             this.FLP_Extension.Controls.Add(this.L_ExtensionY);
             this.FLP_Extension.Controls.Add(this.NUD_ExtensionY);
             this.FLP_Meta.SetFlowBreak(this.FLP_Extension, true);
-            this.FLP_Extension.Location = new System.Drawing.Point(0, 46);
+            this.FLP_Extension.Location = new System.Drawing.Point(0, 86);
             this.FLP_Extension.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Extension.Name = "FLP_Extension";
             this.FLP_Extension.Size = new System.Drawing.Size(88, 40);
@@ -375,7 +397,7 @@
             this.CB_Fossil.DropDownWidth = 322;
             this.FLP_Meta.SetFlowBreak(this.CB_Fossil, true);
             this.CB_Fossil.FormattingEnabled = true;
-            this.CB_Fossil.Location = new System.Drawing.Point(3, 110);
+            this.CB_Fossil.Location = new System.Drawing.Point(3, 150);
             this.CB_Fossil.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.CB_Fossil.Name = "CB_Fossil";
             this.CB_Fossil.Size = new System.Drawing.Size(141, 21);
@@ -391,7 +413,7 @@
             this.FLP_Item.Controls.Add(this.FLP_Uses);
             this.FLP_Item.Controls.Add(this.FLP_Flag0);
             this.FLP_Item.Controls.Add(this.FLP_Flower);
-            this.FLP_Item.Location = new System.Drawing.Point(0, 204);
+            this.FLP_Item.Location = new System.Drawing.Point(0, 244);
             this.FLP_Item.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Item.Name = "FLP_Item";
             this.FLP_Item.Size = new System.Drawing.Size(152, 298);
@@ -822,7 +844,7 @@
             this.FLP_Flag1Group.Controls.Add(this.FLP_Flag1);
             this.FLP_Flag1Group.Controls.Add(this.CHK_Wrapped);
             this.FLP_Flag1Group.Controls.Add(this.FLP_Wrapped);
-            this.FLP_Flag1Group.Location = new System.Drawing.Point(0, 502);
+            this.FLP_Flag1Group.Location = new System.Drawing.Point(0, 542);
             this.FLP_Flag1Group.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Flag1Group.Name = "FLP_Flag1Group";
             this.FLP_Flag1Group.Size = new System.Drawing.Size(152, 125);
@@ -1022,5 +1044,7 @@
         private System.Windows.Forms.CheckBox CHK_Wrap80;
         private System.Windows.Forms.ToolTip TT_Search;
         private InterpolatingPictureBox PB_Item;
+        private System.Windows.Forms.Label L_FilterLabel;
+        private System.Windows.Forms.ComboBox CB_ItemFilter;
     }
 }
