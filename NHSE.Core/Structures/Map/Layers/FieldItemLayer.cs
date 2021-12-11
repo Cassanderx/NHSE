@@ -85,6 +85,24 @@ namespace NHSE.Core
             return count;
         }
 
+        // TODO: Find a way to fit this into ModifyAll.
+        public int ModifyBuried(int xmin, int ymin, int width, int height, Func<Item, bool> criteria)
+        {
+            int count = 0;
+            for (int x = xmin; x < xmin + width; x++)
+            {
+                for (int y = ymin; y < ymin + height; y++)
+                {
+                    var t = GetTile(x, y);
+                    if (!criteria(t))
+                        continue;
+                    Bury(t, x, y);
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public int RemoveAllHoles(int xmin, int ymin, int width, int height) => ClearFieldPlanted(xmin, ymin, width, height, z => z == FieldItemKind.UnitIconHole);
         public int RemoveAllWeeds(int xmin, int ymin, int width, int height) => ClearFieldPlanted(xmin, ymin, width, height, z => z.IsWeed());
         public int RemoveAllTrees(int xmin, int ymin, int width, int height) => ClearFieldPlanted(xmin, ymin, width, height, z => z.IsTree());
@@ -118,6 +136,16 @@ namespace NHSE.Core
             }
 
             return ModifyAll(xmin, ymin, width, height, IsFlowerWaterable, z => z.Water(all));
+        }
+
+        public int BuryAll(int xmin, int ymin, int width, int height)
+        {
+            bool IsAbleToBeBuried(Item item)
+            {
+                return !item.IsNone && item.IsRoot && item.SystemParam == 0x0;
+            }
+
+            return ModifyBuried(xmin, ymin, width, height, IsAbleToBeBuried);
         }
     }
 }

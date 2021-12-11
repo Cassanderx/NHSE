@@ -32,11 +32,13 @@ namespace NHSE.Core
                 return result;
             }
 
+
             set
             {
                 for (int i = 0; i < value.Length; i++)
                     value[i].ToBytes().CopyTo(Data, 0x65C8 + i * s_665e9093.SIZE);
             }
+
         }
 
         public GSaveMusicBoxInfo MusicBoxInfo

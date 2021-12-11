@@ -977,6 +977,8 @@ namespace NHSE.WinForms
         private void B_WaterFlowers_Click(object sender, EventArgs e) => Modify(B_WaterFlowers, (xmin, ymin, width, height)
             => Map.CurrentLayer.WaterAllFlowers(xmin, ymin, width, height, (ModifierKeys & Keys.Control) != 0));
 
+        private void B_BuryItems_Click(object sender, EventArgs e) => Modify(B_BuryItems, (xmin, ymin, width, height) => Map.CurrentLayer.BuryAll(xmin, ymin, width, height));
+
         private static void ShowContextMenuBelow(ToolStripDropDown c, Control n) => c.Show(n.PointToScreen(new Point(0, n.Height)));
 
         private void B_RemoveItemDropDown_Click(object sender, EventArgs e) => ShowContextMenuBelow(CM_Remove, B_RemoveItemDropDown);
