@@ -142,7 +142,7 @@ namespace NHSE.Core
         {
             bool IsAbleToBeBuried(Item item)
             {
-                return !item.IsNone && item.IsRoot && item.SystemParam == 0x0;
+                return !item.IsNone && item.IsRoot && item.SystemParam == 0x0 && ItemInfo.GetItemKind(item) != ItemKind.Kind_FlowerBud;
             }
 
             return ModifyBuried(xmin, ymin, width, height, IsAbleToBeBuried);
