@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using NHSE.Core;
 using NHSE.Sprites;
@@ -414,6 +415,17 @@ namespace NHSE.WinForms
                 pgt.UseCount = pgt.Count;
                 pgt.Count = pgt.DisplayItemId;
                 pgt.ItemId = 5656;
+            }
+
+            if (CHK_DIYDrop.Checked && pgt.IsDropped)
+            {
+                // TODO: For multiple dropped items, this function will run for every single dropped item, causing some lag. Find a way to temporarily cache this?
+                var recipeEntry = RecipeList.Recipes.Keys.FirstOrDefault(x => RecipeList.Recipes[x] == pgt.ItemId);
+                if (recipeEntry != 0)
+                {
+                    pgt.ItemId = 5794;
+                    pgt.Count = recipeEntry;
+                }
             }
 
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
