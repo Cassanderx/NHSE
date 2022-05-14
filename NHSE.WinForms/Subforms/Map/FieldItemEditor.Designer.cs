@@ -158,6 +158,7 @@
             this.CHK_RedirectExtensionLoad = new System.Windows.Forms.CheckBox();
             this.CHK_MoveOnDrag = new System.Windows.Forms.CheckBox();
             this.CHK_FieldItemSnap = new System.Windows.Forms.CheckBox();
+            this.CHK_WallPlace = new System.Windows.Forms.CheckBox();
             this.CM_Click.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.CM_Picture.SuspendLayout();
@@ -967,7 +968,7 @@
             // L_PlazaX
             // 
             this.L_PlazaX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_PlazaX.Location = new System.Drawing.Point(65, 2);
+            this.L_PlazaX.Location = new System.Drawing.Point(-39, -766);
             this.L_PlazaX.Name = "L_PlazaX";
             this.L_PlazaX.Size = new System.Drawing.Size(62, 20);
             this.L_PlazaX.TabIndex = 115;
@@ -977,7 +978,7 @@
             // NUD_PlazaX
             // 
             this.NUD_PlazaX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_PlazaX.Location = new System.Drawing.Point(128, 3);
+            this.NUD_PlazaX.Location = new System.Drawing.Point(24, -765);
             this.NUD_PlazaX.Maximum = new decimal(new int[] {
             1024,
             0,
@@ -996,7 +997,7 @@
             // L_PlazaY
             // 
             this.L_PlazaY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_PlazaY.Location = new System.Drawing.Point(65, 23);
+            this.L_PlazaY.Location = new System.Drawing.Point(-39, -745);
             this.L_PlazaY.Name = "L_PlazaY";
             this.L_PlazaY.Size = new System.Drawing.Size(62, 20);
             this.L_PlazaY.TabIndex = 113;
@@ -1006,7 +1007,7 @@
             // NUD_PlazaY
             // 
             this.NUD_PlazaY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_PlazaY.Location = new System.Drawing.Point(128, 24);
+            this.NUD_PlazaY.Location = new System.Drawing.Point(24, -744);
             this.NUD_PlazaY.Maximum = new decimal(new int[] {
             1024,
             0,
@@ -1025,7 +1026,7 @@
             // B_Help
             // 
             this.B_Help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Help.Location = new System.Drawing.Point(126, 413);
+            this.B_Help.Location = new System.Drawing.Point(22, -355);
             this.B_Help.Name = "B_Help";
             this.B_Help.Size = new System.Drawing.Size(112, 40);
             this.B_Help.TabIndex = 111;
@@ -1041,7 +1042,7 @@
             this.LB_Items.FormattingEnabled = true;
             this.LB_Items.Location = new System.Drawing.Point(6, 45);
             this.LB_Items.Name = "LB_Items";
-            this.LB_Items.Size = new System.Drawing.Size(232, 186);
+            this.LB_Items.Size = new System.Drawing.Size(128, 4);
             this.LB_Items.TabIndex = 109;
             this.LB_Items.SelectedIndexChanged += new System.EventHandler(this.LB_Items_SelectedIndexChanged);
             // 
@@ -1122,7 +1123,7 @@
             this.PG_TerrainTile.Location = new System.Drawing.Point(3, 3);
             this.PG_TerrainTile.Name = "PG_TerrainTile";
             this.PG_TerrainTile.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.PG_TerrainTile.Size = new System.Drawing.Size(238, 266);
+            this.PG_TerrainTile.Size = new System.Drawing.Size(134, 266);
             this.PG_TerrainTile.TabIndex = 41;
             this.PG_TerrainTile.ToolbarVisible = false;
             // 
@@ -1280,6 +1281,7 @@
             // 
             // Tab_Placement
             // 
+            this.Tab_Placement.Controls.Add(this.CHK_WallPlace);
             this.Tab_Placement.Controls.Add(this.CHK_Flag4);
             this.Tab_Placement.Controls.Add(this.NUD_DropRows);
             this.Tab_Placement.Controls.Add(this.L_DropRows);
@@ -1499,6 +1501,17 @@
             this.CHK_FieldItemSnap.Text = "Snap Field Items to Grid on Set";
             this.CHK_FieldItemSnap.UseVisualStyleBackColor = true;
             // 
+            // CHK_WallPlace
+            // 
+            this.CHK_WallPlace.AutoSize = true;
+            this.CHK_WallPlace.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_WallPlace.Location = new System.Drawing.Point(52, 60);
+            this.CHK_WallPlace.Name = "CHK_WallPlace";
+            this.CHK_WallPlace.Size = new System.Drawing.Size(125, 17);
+            this.CHK_WallPlace.TabIndex = 3;
+            this.CHK_WallPlace.Text = "Place root as #5656:";
+            this.CHK_WallPlace.UseVisualStyleBackColor = true;
+            // 
             // FieldItemEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1706,5 +1719,6 @@
         private System.Windows.Forms.Label L_DropRows;
         private System.Windows.Forms.CheckBox CHK_Flag4;
         private System.Windows.Forms.ToolStripMenuItem B_BuryItems;
+        private System.Windows.Forms.CheckBox CHK_WallPlace;
     }
 }

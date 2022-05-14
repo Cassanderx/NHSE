@@ -408,6 +408,12 @@ namespace NHSE.WinForms
                 x += Math.Max((w / 2) - 1, 0);
                 y += Math.Max((h / 2) - 1, 0);
                 tile = l.GetTile(x, y);
+            } 
+            else if (CHK_WallPlace.Checked && pgt.SystemParam == 0x0)
+            {
+                pgt.UseCount = pgt.Count;
+                pgt.Count = pgt.DisplayItemId;
+                pgt.ItemId = 5656;
             }
 
             if (pgt.IsFieldItem && CHK_FieldItemSnap.Checked)
@@ -439,11 +445,14 @@ namespace NHSE.WinForms
             if (reload) ReloadItems();
         }
 
+
         // TODO: Implement direction
         private void SetDroppedTiles(int x, int y, int count = -1, bool reload = true)
         {
             var item = new Item();
+            var l = Map.CurrentLayer; // I don't like this being here, but we need it for the bounds check for now...
             ItemEdit.SetItem(item);
+
             if (item.IsBuried && CHK_Flag4.Checked)
             {
                 // Pretend we're a full item for size related purposes if aimbot is on
@@ -451,16 +460,32 @@ namespace NHSE.WinForms
             }
             var w = ItemInfo.GetItemSize(item).GetWidth();
             var h = ItemInfo.GetItemSize(item).GetHeight();
+
+            if (item.SystemParam == 0x0 && CHK_WallPlace.Checked)
+            {
+                var copy = new Item(5656);
+                w = ItemInfo.GetItemSize(copy).GetWidth();
+                h = ItemInfo.GetItemSize(copy).GetHeight();
+            }
             // Force even number
             w += w % 2;
             h += h % 2;
 
-            for (int j = 0; j < NUD_DropRows.Value; j++)
+            for (var j = 0; j < NUD_DropRows.Value; j++)
             {
-                for (var i = 0; i < w / 2; i++)
+                var newY = y + h + 2 * j;
+                if (l.IsCoordWithinGrid(x + (w / 2 - 1) * 2, newY))
                 {
-                    var tile = Map.CurrentLayer.GetTile(x + i * 2, y + h + 2 * j);
-                    SetTile(tile, x + i * 2, y + h + 2 * j, 0x20, count, false);
+                    for (var i = 0; i < w / 2; i++)
+                    {
+                        var newX = x + i * 2;
+                        var tile = Map.CurrentLayer.GetTile(newX, newY);
+                        SetTile(tile, newX, newY, 0x20, count, true);
+                    }
+                }
+                else
+                {
+                    break;
                 }
             }
 
@@ -478,6 +503,11 @@ namespace NHSE.WinForms
                 itemCopy.CopyFrom(item);
                 itemCopy.SystemParam = 0x0;
                 size = ItemInfo.GetItemSize(itemCopy);
+            }
+            else if (item.SystemParam == 0x0 && CHK_WallPlace.Checked)
+            {
+                var copy = new Item(5656);
+                size = ItemInfo.GetItemSize(copy);
             }
             else
             {

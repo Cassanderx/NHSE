@@ -57,6 +57,8 @@ namespace NHSE.WinForms
 
             AllItems = items;
 
+            var test = items.Where(x => x.Value == 02596);
+
             List<ComboItem> itemKinds = new List<ComboItem>
             {
                 new ("None", -1)
@@ -244,7 +246,7 @@ namespace NHSE.WinForms
                     break;
 
                 case ItemKind.Kind_DIYRecipe:
-                    CB_Recipe.SelectedValue = (int)NUD_Count.Value;
+                    CB_Recipe.SelectedValue = (int) NUD_Count.Value;
                     break;
 
                 case ItemKind.Kind_MessageBottle:

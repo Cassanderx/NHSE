@@ -167,6 +167,15 @@ namespace NHSE.Core
             return PlacedItemPermission.NoCollision;
         }
 
+        /// <summary>
+        /// Checks if specified coordinates fall within the limits of the grid
+        /// </summary>
+        /// <returns>True if coords are in a valid grid location, false otherwise</returns>
+        public bool IsCoordWithinGrid(int x, int y)
+        {
+            return x < MaxWidth && y < MaxHeight;
+        }
+
         public int ReplaceAll(Item oldItem, Item newItem, in int xmin, in int ymin, in int width, in int height)
         {
             var sizeOld = ItemInfo.GetItemSize(oldItem);
