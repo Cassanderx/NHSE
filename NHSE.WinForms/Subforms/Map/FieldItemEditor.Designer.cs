@@ -158,6 +158,7 @@
             this.CHK_RedirectExtensionLoad = new System.Windows.Forms.CheckBox();
             this.CHK_MoveOnDrag = new System.Windows.Forms.CheckBox();
             this.CHK_FieldItemSnap = new System.Windows.Forms.CheckBox();
+            this.CHK_WallPlace = new System.Windows.Forms.CheckBox();
             this.CM_Click.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.CM_Picture.SuspendLayout();
@@ -1035,8 +1036,8 @@
             // 
             // LB_Items
             // 
-            this.LB_Items.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.LB_Items.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LB_Items.FormattingEnabled = true;
             this.LB_Items.Location = new System.Drawing.Point(6, 45);
@@ -1117,7 +1118,7 @@
             // 
             // PG_TerrainTile
             // 
-            this.PG_TerrainTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PG_TerrainTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_TerrainTile.Location = new System.Drawing.Point(3, 3);
             this.PG_TerrainTile.Name = "PG_TerrainTile";
@@ -1280,6 +1281,7 @@
             // 
             // Tab_Placement
             // 
+            this.Tab_Placement.Controls.Add(this.CHK_WallPlace);
             this.Tab_Placement.Controls.Add(this.CHK_Flag4);
             this.Tab_Placement.Controls.Add(this.NUD_DropRows);
             this.Tab_Placement.Controls.Add(this.L_DropRows);
@@ -1499,6 +1501,17 @@
             this.CHK_FieldItemSnap.Text = "Snap Field Items to Grid on Set";
             this.CHK_FieldItemSnap.UseVisualStyleBackColor = true;
             // 
+            // CHK_WallPlace
+            // 
+            this.CHK_WallPlace.AutoSize = true;
+            this.CHK_WallPlace.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_WallPlace.Location = new System.Drawing.Point(52, 60);
+            this.CHK_WallPlace.Name = "CHK_WallPlace";
+            this.CHK_WallPlace.Size = new System.Drawing.Size(125, 17);
+            this.CHK_WallPlace.TabIndex = 3;
+            this.CHK_WallPlace.Text = "Place root as #5656:";
+            this.CHK_WallPlace.UseVisualStyleBackColor = true;
+            // 
             // FieldItemEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1706,5 +1719,6 @@
         private System.Windows.Forms.Label L_DropRows;
         private System.Windows.Forms.CheckBox CHK_Flag4;
         private System.Windows.Forms.ToolStripMenuItem B_BuryItems;
+        private System.Windows.Forms.CheckBox CHK_WallPlace;
     }
 }
