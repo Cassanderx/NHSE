@@ -388,7 +388,7 @@ namespace NHSE.WinForms
             TC_Editor.SelectedTab = Tab_Terrain;
         }
 
-        private void SetTile(Item tile, int x, int y, int overrideFlag = -1, int overrideCount = -1, bool reload = true)
+        private void SetTile(Item tile, int x, int y, int overrideFlag = -1, int overrideCount = -1, bool reload = true, bool placeAsDIY = false)
         {
             var l = Map.CurrentLayer;
             var pgt = new Item();
@@ -417,8 +417,9 @@ namespace NHSE.WinForms
                 pgt.ItemId = 5656;
             }
 
-            if (CHK_DIYDrop.Checked && pgt.IsDropped)
+            if (placeAsDIY && pgt.IsDropped)
             {
+                
                 // TODO: For multiple dropped items, this function will run for every single dropped item, causing some lag. Find a way to temporarily cache this?
                 var recipeEntry = RecipeList.Recipes.Keys.FirstOrDefault(x => RecipeList.Recipes[x] == pgt.ItemId);
                 if (recipeEntry != 0)
@@ -483,7 +484,7 @@ namespace NHSE.WinForms
             w += w % 2;
             h += h % 2;
 
-            for (var j = 0; j < NUD_DropRows.Value; j++)
+            for (var j = 0; j < NUD_DropRows.Value + NUD_DIYRows.Value; j++)
             {
                 var newY = y + h + 2 * j;
                 if (l.IsCoordWithinGrid(x + (w / 2 - 1) * 2, newY))
@@ -492,7 +493,7 @@ namespace NHSE.WinForms
                     {
                         var newX = x + i * 2;
                         var tile = Map.CurrentLayer.GetTile(newX, newY);
-                        SetTile(tile, newX, newY, 0x20, count, true);
+                        SetTile(tile, newX, newY, 0x20, count, true, j >= NUD_DropRows.Value);
                     }
                 }
                 else

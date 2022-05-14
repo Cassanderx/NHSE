@@ -159,7 +159,8 @@
             this.CHK_RedirectExtensionLoad = new System.Windows.Forms.CheckBox();
             this.CHK_MoveOnDrag = new System.Windows.Forms.CheckBox();
             this.CHK_FieldItemSnap = new System.Windows.Forms.CheckBox();
-            this.CHK_DIYDrop = new System.Windows.Forms.CheckBox();
+            this.L_DIYRows = new System.Windows.Forms.Label();
+            this.NUD_DIYRows = new System.Windows.Forms.NumericUpDown();
             this.CM_Click.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.CM_Picture.SuspendLayout();
@@ -193,6 +194,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).BeginInit();
             this.CM_DLTerrain.SuspendLayout();
             this.CM_Terrain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DIYRows)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -1282,7 +1284,8 @@
             // 
             // Tab_Placement
             // 
-            this.Tab_Placement.Controls.Add(this.CHK_DIYDrop);
+            this.Tab_Placement.Controls.Add(this.NUD_DIYRows);
+            this.Tab_Placement.Controls.Add(this.L_DIYRows);
             this.Tab_Placement.Controls.Add(this.CHK_WallPlace);
             this.Tab_Placement.Controls.Add(this.CHK_Flag4);
             this.Tab_Placement.Controls.Add(this.NUD_DropRows);
@@ -1299,7 +1302,7 @@
             // 
             this.CHK_WallPlace.AutoSize = true;
             this.CHK_WallPlace.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_WallPlace.Location = new System.Drawing.Point(52, 60);
+            this.CHK_WallPlace.Location = new System.Drawing.Point(52, 72);
             this.CHK_WallPlace.Name = "CHK_WallPlace";
             this.CHK_WallPlace.Size = new System.Drawing.Size(125, 17);
             this.CHK_WallPlace.TabIndex = 3;
@@ -1312,7 +1315,7 @@
             this.CHK_Flag4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Flag4.Checked = true;
             this.CHK_Flag4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Flag4.Location = new System.Drawing.Point(52, 37);
+            this.CHK_Flag4.Location = new System.Drawing.Point(52, 52);
             this.CHK_Flag4.Name = "CHK_Flag4";
             this.CHK_Flag4.Size = new System.Drawing.Size(93, 17);
             this.CHK_Flag4.TabIndex = 2;
@@ -1345,7 +1348,7 @@
             // L_DropRows
             // 
             this.L_DropRows.AutoSize = true;
-            this.L_DropRows.Location = new System.Drawing.Point(53, 12);
+            this.L_DropRows.Location = new System.Drawing.Point(52, 12);
             this.L_DropRows.Name = "L_DropRows";
             this.L_DropRows.Size = new System.Drawing.Size(63, 13);
             this.L_DropRows.TabIndex = 0;
@@ -1514,16 +1517,21 @@
             this.CHK_FieldItemSnap.Text = "Snap Field Items to Grid on Set";
             this.CHK_FieldItemSnap.UseVisualStyleBackColor = true;
             // 
-            // CHK_DIYDrop
+            // L_DIYRows
             // 
-            this.CHK_DIYDrop.AutoSize = true;
-            this.CHK_DIYDrop.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_DIYDrop.Location = new System.Drawing.Point(52, 83);
-            this.CHK_DIYDrop.Name = "CHK_DIYDrop";
-            this.CHK_DIYDrop.Size = new System.Drawing.Size(120, 17);
-            this.CHK_DIYDrop.TabIndex = 4;
-            this.CHK_DIYDrop.Text = "Place drops as DIY:";
-            this.CHK_DIYDrop.UseVisualStyleBackColor = true;
+            this.L_DIYRows.AutoSize = true;
+            this.L_DIYRows.Location = new System.Drawing.Point(52, 32);
+            this.L_DIYRows.Name = "L_DIYRows";
+            this.L_DIYRows.Size = new System.Drawing.Size(58, 13);
+            this.L_DIYRows.TabIndex = 4;
+            this.L_DIYRows.Text = "DIY Rows:";
+            // 
+            // NUD_DIYRows
+            // 
+            this.NUD_DIYRows.Location = new System.Drawing.Point(122, 32);
+            this.NUD_DIYRows.Name = "NUD_DIYRows";
+            this.NUD_DIYRows.Size = new System.Drawing.Size(64, 20);
+            this.NUD_DIYRows.TabIndex = 5;
             // 
             // FieldItemEditor
             // 
@@ -1597,6 +1605,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_DropRows)).EndInit();
             this.CM_DLTerrain.ResumeLayout(false);
             this.CM_Terrain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DIYRows)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1733,6 +1742,7 @@
         private System.Windows.Forms.CheckBox CHK_Flag4;
         private System.Windows.Forms.ToolStripMenuItem B_BuryItems;
         private System.Windows.Forms.CheckBox CHK_WallPlace;
-        private System.Windows.Forms.CheckBox CHK_DIYDrop;
+        private System.Windows.Forms.NumericUpDown NUD_DIYRows;
+        private System.Windows.Forms.Label L_DIYRows;
     }
 }
