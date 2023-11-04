@@ -69,9 +69,7 @@ namespace NHSE.WinForms
             {
                 SAV.Save((uint) DateTime.Now.Ticks);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error(MessageStrings.MsgSaveDataExportFail, ex.Message);
                 return;
@@ -322,9 +320,7 @@ namespace NHSE.WinForms
                 var photo = pers.GetPhotoData();
                 PB_Player.Image = new Bitmap(new MemoryStream(photo));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Console.WriteLine(e);
             }
@@ -449,18 +445,22 @@ namespace NHSE.WinForms
 
         private void B_EditPatterns_Click(object sender, EventArgs e)
         {
+            var playerID = SAV.Players[0].Personal.GetPlayerIdentity(); // fetch ID for overwrite ownership
+            var townID = SAV.Players[0].Personal.GetTownIdentity(); // fetch ID for overwrite ownership
             var patterns = SAV.Main.GetDesigns();
             using var editor = new PatternEditor(patterns);
             if (editor.ShowDialog() == DialogResult.OK)
-                SAV.Main.SetDesigns(patterns);
+                SAV.Main.SetDesigns(patterns, playerID, townID);
         }
 
         private void B_EditPRODesigns_Click(object sender, EventArgs e)
         {
+            var playerID = SAV.Players[0].Personal.GetPlayerIdentity(); // fetch ID for overwrite ownership
+            var townID = SAV.Players[0].Personal.GetTownIdentity(); // fetch ID for overwrite ownership
             var patterns = SAV.Main.GetDesignsPRO();
             using var editor = new PatternEditorPRO(patterns);
             if (editor.ShowDialog() == DialogResult.OK)
-                SAV.Main.SetDesignsPRO(patterns);
+                SAV.Main.SetDesignsPRO(patterns, playerID, townID);
         }
 
         private void B_EditPatternFlag_Click(object sender, EventArgs e)

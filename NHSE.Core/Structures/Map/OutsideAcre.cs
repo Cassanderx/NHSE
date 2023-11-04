@@ -167,7 +167,7 @@ namespace NHSE.Core
 
         // New!
         FldOutWherearenNW00 = 257,
-        ldOutWherearenW00 = 258,
+        FldOutWherearenW00 = 258,
         FldOutWherearenSW00 = 259,
         FldOutWherearenS01 = 260,
         FldOutWherearenSE00 = 261,
@@ -253,6 +253,9 @@ namespace NHSE.Core
             {47, Color.FromArgb(128, 128,   0)}, // Sandstone
             {49, Color.FromArgb(190,  98,  98)}, // Pier
             {51, Color.FromArgb(32 , 152,  32)}, // "Grass-growing building"??
+            {70, Color.FromArgb(109, 113, 124)}, // Kapp'n's island rock
+            {149, Color.FromArgb(179, 207, 252)}, // Ice (traversable)
+            {150, Color.FromArgb(61 , 119, 212)}, // Ice (tall, with collision)
         };
     }
 }
